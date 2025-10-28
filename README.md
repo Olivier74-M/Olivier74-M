@@ -1,5 +1,3 @@
-## Hi there 👋
-
 # 🧰 FieldScribe Workspace
 
 **AI-powered documentation for tradespeople**  
