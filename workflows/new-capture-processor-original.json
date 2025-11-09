@@ -1,0 +1,610 @@
+{
+  "name": "Bracework – New Capture Processor",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "new-capture",
+        "options": {
+          "responseData": "={\n  \"ok\": true,\n  \"message\": \"Capture received successfully\"\n}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -352,
+        32
+      ],
+      "id": "2d3d7854-40da-44b8-b38c-400106f80ad7",
+      "name": "Webhook – New Capture",
+      "webhookId": "4a7e0738-b68d-4fa6-9b77-2412d89ad35c"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        224,
+        -96
+      ],
+      "id": "01e3f6f3-073c-473e-b25f-b5ebae89c745",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "421cb5ba-195c-48ac-9585-610f03666dcb",
+              "name": "raw",
+              "value": "={{$json}}",
+              "type": "string"
+            },
+            {
+              "id": "9478ff6c-5c39-4bbc-964a-3ac290406d43",
+              "name": "normalized.text",
+              "value": "={{$json.text || $json.body?.text || null}}",
+              "type": "string"
+            },
+            {
+              "id": "c513ae9a-6b7e-4682-a75a-86c107262388",
+              "name": "normalized.lang_hint",
+              "value": "={{$json.lang_hint || $json.body?.lang_hint || null}}",
+              "type": "string"
+            },
+            {
+              "id": "7b6d5fac-3d8b-47bc-a48a-e239cce1707f",
+              "name": "media.image_url",
+              "value": "={{$json.media?.image_url || $json.body?.media?.image_url || null}}",
+              "type": "string"
+            },
+            {
+              "id": "58c75acd-5c68-4776-9fdc-ab493bfaece2",
+              "name": "meta.source",
+              "value": "={{$json.body?.source || \"webhook\"}}",
+              "type": "string"
+            },
+            {
+              "id": "43824e3d-6571-4955-b6a1-ab3f2362dc81",
+              "name": "meta.received_at",
+              "value": "={{new Date().toISOString()}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        432,
+        -96
+      ],
+      "id": "f186f21c-4549-42b0-a7f8-7774b4f33b87",
+      "name": "Pass-through"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a41c147c-a951-4c94-a68f-b0686dd91c2e",
+              "leftValue": "={{$json.media?.image_url}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        640,
+        -96
+      ],
+      "id": "61b4e801-7906-452d-b10a-b40030daed97",
+      "name": "Has Image?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d4456ce8-f299-419c-bc8c-6a313bde5ddb",
+              "name": "normalized.text",
+              "value": "={{$json.normalized.text}}",
+              "type": "string"
+            },
+            {
+              "id": "0effadc4-06d3-453c-8017-cd8a806245b9",
+              "name": "media.image_url",
+              "value": "={{null}}",
+              "type": "string"
+            },
+            {
+              "id": "11328f2e-4121-4695-afc4-c282a98b4bb4",
+              "name": "media.audio_url",
+              "value": "={{null}}",
+              "type": "string"
+            },
+            {
+              "id": "17a50a19-c2ce-4d63-978d-aa2ba1e0e753",
+              "name": "meta",
+              "value": "={{$json.meta}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        848,
+        0
+      ],
+      "id": "863a5ecf-bc32-4839-b7c2-2833b29f885f",
+      "name": "Pass-through (no image)"
+    },
+    {
+      "parameters": {
+        "url": "={{$json.media.image_url}}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "image"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        848,
+        -192
+      ],
+      "id": "8546bee8-e30a-428d-b28f-0ca1fbbb8eff",
+      "name": "Fetch Image (binary)"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://dqdgtsnxxhzrpfkpgcww.supabase.co/storage/v1/object/images/{{ new Date().toISOString().replace(/[:.TZ]/g,'-') }}.jpg",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxZGd0c254eGh6cnBma3BnY3d3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MTcwMjI3OSwiZXhwIjoyMDc3Mjc4Mjc5fQ.Yqjt4kVP4oRc-SGMFNeoF3fXgi3hHx3RpDmmLufaREQ"
+            },
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxZGd0c254eGh6cnBma3BnY3d3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MTcwMjI3OSwiZXhwIjoyMDc3Mjc4Mjc5fQ.Yqjt4kVP4oRc-SGMFNeoF3fXgi3hHx3RpDmmLufaREQ"
+            },
+            {
+              "name": "Content-Type",
+              "value": "={{$binary.image.mimeType || 'application/octet-stream'}}"
+            },
+            {
+              "name": "x-upsert",
+              "value": "true"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "image",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1248,
+        -192
+      ],
+      "id": "8922b8c6-5ad2-4d3c-a68a-c4cdebaa080f",
+      "name": "Upload to Supabase"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://dqdgtsnxxhzrpfkpgcww.supabase.co/storage/v1/object/sign/images/{{ \n  encodeURIComponent($json.Key.replace(/^images\\//, '')) \n}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxZGd0c254eGh6cnBma3BnY3d3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MTcwMjI3OSwiZXhwIjoyMDc3Mjc4Mjc5fQ.Yqjt4kVP4oRc-SGMFNeoF3fXgi3hHx3RpDmmLufaREQ"
+            },
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxZGd0c254eGh6cnBma3BnY3d3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MTcwMjI3OSwiZXhwIjoyMDc3Mjc4Mjc5fQ.Yqjt4kVP4oRc-SGMFNeoF3fXgi3hHx3RpDmmLufaREQ"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \"expiresIn\": 3600 }",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1488,
+        -192
+      ],
+      "id": "29bcad75-271d-4e30-a1df-2383687babef",
+      "name": "Sign URL"
+    },
+    {
+      "parameters": {
+        "keys": {
+          "key": [
+            {
+              "currentKey": "image",
+              "newKey": "image"
+            }
+          ]
+        },
+        "additionalOptions": {}
+      },
+      "type": "n8n-nodes-base.renameKeys",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        -192
+      ],
+      "id": "d048e2d8-51c0-4c51-9742-46128fe00a67",
+      "name": "Move Binary Data"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "260ada56-ad57-48f2-876e-b19ce3904d1d",
+              "name": "file_path",
+              "value": "={{$json.Key}}",
+              "type": "string"
+            },
+            {
+              "id": "f802a6a9-b486-4db1-92ef-d9f5514772cf",
+              "name": "signed_path",
+              "value": "={{$json.signedURL}}",
+              "type": "string"
+            },
+            {
+              "id": "5e4f60de-e314-4de5-bf68-d5830c4f9816",
+              "name": "signed_url",
+              "value": "={{$env.SUPABASE_URL}}{{$json.signedURL}}",
+              "type": "string"
+            },
+            {
+              "id": "2b058329-7260-42d0-8491-1c4e5ef002a9",
+              "name": "bucket",
+              "value": "=\"images\"",
+              "type": "string"
+            },
+            {
+              "id": "d8e99292-215b-43fe-ac0e-29917913d4fc",
+              "name": "mime",
+              "value": "={{$binary.image.mimeType || 'application/octet-stream'}}",
+              "type": "string"
+            },
+            {
+              "id": "bf53eb81-d321-43f8-94b2-572d8591a249",
+              "name": "received_at",
+              "value": "={{$json.meta?.received_at || new Date().toISOString()}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1712,
+        -192
+      ],
+      "id": "1f5523ab-c417-4975-92c5-89403c2a6206",
+      "name": "Usable URL"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://dqdgtsnxxhzrpfkpgcww.supabase.co/rest/v1/captures?on_conflict=file_path",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxZGd0c254eGh6cnBma3BnY3d3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MTcwMjI3OSwiZXhwIjoyMDc3Mjc4Mjc5fQ.Yqjt4kVP4oRc-SGMFNeoF3fXgi3hHx3RpDmmLufaREQ"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxZGd0c254eGh6cnBma3BnY3d3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MTcwMjI3OSwiZXhwIjoyMDc3Mjc4Mjc5fQ.Yqjt4kVP4oRc-SGMFNeoF3fXgi3hHx3RpDmmLufaREQ"
+            },
+            {
+              "name": "Prefer",
+              "value": "resolution=merge-duplicates,return=representation"
+            },
+            {
+              "name": "content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "type",
+              "value": "image"
+            },
+            {
+              "name": "bucket",
+              "value": "images"
+            },
+            {
+              "name": "file_path",
+              "value": "={{ $json.file_path }}"
+            },
+            {
+              "name": "kind",
+              "value": "image"
+            },
+            {
+              "name": "source",
+              "value": "webhook"
+            },
+            {
+              "name": "status",
+              "value": "stored"
+            },
+            {
+              "name": "mime",
+              "value": "={{ $json.mime }}"
+            },
+            {
+              "name": "size_bytes",
+              "value": "={{ $json.size_bytes ?? $binary?.image?.fileSize ?? 0 }}"
+            },
+            {
+              "name": "storage_id",
+              "value": "={{ $node['Upload to Supabase'].json.id }}"
+            },
+            {
+              "name": "signed_url",
+              "value": "={{ ($env.SUPABASE_URL) }}"
+            },
+            {
+              "name": "received_at",
+              "value": "={{ $json.meta?.received_at }}"
+            },
+            {
+              "name": "job_id",
+              "value": "={{ $json.job_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1920,
+        -192
+      ],
+      "id": "fc700723-be90-4f3e-b830-15692ab29229",
+      "name": "Supabase – Upsert Capture (image)"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://dqdgtsnxxhzrpfkpgcww.supabase.co/rest/v1/jobs",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            },
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxZGd0c254eGh6cnBma3BnY3d3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MTcwMjI3OSwiZXhwIjoyMDc3Mjc4Mjc5fQ.Yqjt4kVP4oRc-SGMFNeoF3fXgi3hHx3RpDmmLufaREQ"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxZGd0c254eGh6cnBma3BnY3d3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MTcwMjI3OSwiZXhwIjoyMDc3Mjc4Mjc5fQ.Yqjt4kVP4oRc-SGMFNeoF3fXgi3hHx3RpDmmLufaREQ"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "source",
+              "value": "webhook"
+            },
+            {
+              "name": "status",
+              "value": "open"
+            },
+            {
+              "name": "kind",
+              "value": "={{$json.media?.kind ?? 'image'}}"
+            },
+            {
+              "name": "org_id",
+              "value": "={{$json.org_id ?? null}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -144,
+        32
+      ],
+      "id": "cac362ed-0f44-44ae-8444-0effc3a7e59b",
+      "name": "Create Job"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook – New Capture": {
+      "main": [
+        [
+          {
+            "node": "Create Job",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Pass-through",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pass-through": {
+      "main": [
+        [
+          {
+            "node": "Has Image?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Image?": {
+      "main": [
+        [
+          {
+            "node": "Fetch Image (binary)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pass-through (no image)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Image (binary)": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to Supabase": {
+      "main": [
+        [
+          {
+            "node": "Sign URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data": {
+      "main": [
+        [
+          {
+            "node": "Upload to Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sign URL": {
+      "main": [
+        [
+          {
+            "node": "Usable URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Usable URL": {
+      "main": [
+        [
+          {
+            "node": "Supabase – Upsert Capture (image)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0e67dde7-c137-4682-af09-8eaf68614580",
+  "meta": {
+    "instanceId": "776f7e93d6aa6a34004a54d93931951ec3ec7e936785ebb4e9d90e8def4b7692"
+  },
+  "id": "jUyC91tMAZ4Wy4ne",
+  "tags": []
+}
