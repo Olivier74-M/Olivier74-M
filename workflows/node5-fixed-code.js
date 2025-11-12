@@ -10,7 +10,17 @@ if (!template || !template.system_prompt) {
 }
 
 const context = $input.item.json;
-const systemPrompt = template.system_prompt;
+
+// For MVP: Remove placeholder variables from system prompt
+// (e.g., {property_details}, {client_concern}, etc.)
+let systemPrompt = template.system_prompt;
+
+// Remove lines that contain unreplaced placeholder variables
+systemPrompt = systemPrompt
+  .split('\n')
+  .filter(line => !line.includes('{') || !line.includes('}'))
+  .join('\n')
+  .trim();
 
 // Build user message
 const userMessageText = `Here's all the information from my site visit:\n\n${context.all_text_context}\n\n${context.image_count > 0 ? `I've also included ${context.image_count} photos from the site for your review.` : ''}`;
