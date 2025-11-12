@@ -1,0 +1,5 @@
+// This node needs to pass through job_id from the webhook
+// Since this is an HTTP Request node, we need to add job_id via expression
+
+// For Node 2 "Fetch Prompt Template", we can't modify the Supabase response
+// So we'll handle this in Node 4 instead where we have JavaScript control
