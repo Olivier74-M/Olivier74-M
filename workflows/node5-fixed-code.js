@@ -53,7 +53,7 @@ const messages = [
 // Return GPT-4 Vision request
 return [{
   json: {
-    model: 'gpt-4-vision-preview',
+    model: 'gpt-4o',
     messages: messages,
     max_tokens: 4000,
     temperature: 0.7
