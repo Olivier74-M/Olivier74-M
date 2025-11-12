@@ -2,14 +2,14 @@
 // More robust version that handles data format variations
 
 // Get template - handle both array and direct object
-const templateNode = $('Fetch Prompt Template').item.json;
+const templateNode = $('Fetch Prompt Template').first().json;
 const template = Array.isArray(templateNode) ? templateNode[0] : templateNode;
 
 if (!template || !template.system_prompt) {
   throw new Error('Template data is missing or invalid. Expected system_prompt field.');
 }
 
-const context = $input.item.json;
+const context = $input.first().json;
 
 // For MVP: Remove placeholder variables from system prompt
 // (e.g., {property_details}, {client_concern}, etc.)
