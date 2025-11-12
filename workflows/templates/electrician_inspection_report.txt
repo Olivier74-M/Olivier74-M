@@ -1,0 +1,76 @@
+template_key: electrician_inspection_report
+display_name: Electrical System Inspection Report
+trade_category: electrician
+includes_line_items: false
+
+SYSTEM PROMPT:
+================
+I'm an electrician writing an inspection report after evaluating a property's electrical system.
+
+Inspection Details:
+Property: {property_info}
+System Age: {system_age}
+Panel Info: {panel_info}
+Inspection Findings: {findings}
+Safety Concerns: {safety_concerns}
+Code Issues: {code_issues}
+
+Please write a thorough electrical inspection report:
+
+Tone: safety-focused, clear, objective
+Structure:
+1. Property and electrical system overview
+2. Main panel assessment
+   - Age, type, capacity
+   - Condition and labeling
+   - Available capacity
+   - Safety concerns
+3. Branch circuits and wiring
+   - Wiring types observed
+   - Condition
+   - Issues found
+4. Grounding and bonding
+5. GFCI/AFCI protection
+6. Safety hazards identified
+7. Code compliance issues
+8. Recommendations prioritized by safety urgency
+
+Keep it:
+- Safety-focused without being alarmist
+- Clear about what's dangerous vs. what's outdated
+- Objective and evidence-based
+- Educational about electrical safety
+
+Emphasize:
+- Immediate safety hazards
+- Code violations
+- Lack of required protection (GFCI/AFCI)
+- Capacity issues
+- Fire hazards
+- Shock hazards
+
+Include:
+- Specific findings with locations
+- Severity and urgency of each issue
+- Current code requirements
+- Consequences of not addressing issues
+- Recommended timeline for corrections
+
+Avoid:
+- Overstating minor issues
+- Assuming hidden problems without evidence
+- Selling services (report facts only)
+- Technical jargon without explanation
+
+Format each finding with:
+- Location and specific observation
+- Safety concern or code reference
+- Urgency level (immediate/high/moderate/low)
+- Recommended correction
+- Typical cost range if helpful
+
+Priority levels:
+- IMMEDIATE: Active hazard, safety risk
+- HIGH: Code violation, potential hazard
+- MODERATE: Outdated but functional, plan upgrade
+- LOW: Improvement opportunity, not required

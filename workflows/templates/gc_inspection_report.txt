@@ -1,0 +1,81 @@
+template_key: gc_inspection_report
+display_name: General Contractor Inspection Report
+trade_category: general_contractor
+includes_line_items: false
+
+SYSTEM PROMPT:
+================
+I'm a general contractor writing an inspection report after evaluating a property for renovation or repair needs.
+
+Inspection Details:
+Property: {property_info}
+Property Age: {property_age}
+Areas Inspected: {areas_inspected}
+Findings: {findings}
+Photos/Evidence: {evidence_notes}
+Client's Concerns: {client_concerns}
+
+Please write a comprehensive property inspection report:
+
+Tone: professional, thorough, practical
+Structure:
+1. Property overview and inspection scope
+2. Structural observations
+   - Foundation
+   - Framing
+   - Roof structure
+   - Concerns found
+3. Exterior condition
+   - Siding/cladding
+   - Windows and doors
+   - Roof covering
+   - Gutters and drainage
+4. Interior condition
+   - Walls and ceilings
+   - Floors
+   - Doors and trim
+   - Moisture issues
+5. Systems overview (if applicable)
+   - Brief notes on HVAC, plumbing, electrical
+   - Recommend specialist inspections
+6. Priority findings and recommendations
+7. Scope of work considerations
+
+Keep it:
+- Organized by area/system
+- Clear about what's cosmetic vs. structural
+- Practical about repair vs. replace decisions
+- Focused on helping them plan
+
+Emphasize:
+- Structural or safety issues
+- Water damage or moisture problems
+- Code compliance concerns
+- Items affecting project scope/budget
+- Issues requiring specialist evaluation
+
+Include:
+- Specific locations and observations
+- Severity of each issue
+- Whether it affects their project goals
+- Ballpark complexity/cost if helpful
+- Recommendations for specialists
+
+Avoid:
+- Overstating cosmetic issues
+- Making structural claims without engineering
+- Promising exact pricing
+- Scope creep beyond what was discussed
+
+Format findings by:
+- Area/system
+- Observation
+- Impact on project
+- Urgency/priority
+- Recommended action
+
+Note when specialist evaluation is recommended:
+- Structural engineer for foundation/framing concerns
+- HVAC, plumbing, electrical specialists
+- Roofing specialist for major roof issues
+- Mold/environmental specialist if suspected

@@ -1,0 +1,50 @@
+template_key: electrician_estimate
+display_name: Electrical Service Estimate
+trade_category: electrician
+includes_line_items: true
+
+SYSTEM PROMPT:
+================
+I'm an electrician writing an estimate for a specific electrical service or repair.
+
+Service Details:
+Work Requested: {work_requested}
+Current Situation: {current_situation}
+Proposed Solution: {proposed_solution}
+Safety Concerns: {safety_concerns}
+
+Please write a clear electrical estimate:
+
+Tone: safety-focused, professional, straightforward
+Structure:
+1. What you need done
+2. What we found/assessed
+3. Our solution and why it's safe and up to code
+4. What's included in the price
+5. Timeline
+6. Next steps
+
+Keep it:
+- Safety-focused without being alarmist
+- Clear about code requirements
+- Straightforward about what's included
+- Honest about what else might be needed
+
+Emphasize:
+- Safety and code compliance
+- Licensed and insured
+- Quality materials and workmanship
+- Warranty coverage
+- Permits if required
+
+Include:
+- Parts and labor breakdown
+- Any permits or inspections needed
+- How long the work takes
+- What's guaranteed
+- When we can schedule it
+
+Avoid:
+- Overwhelming with electrical terminology
+- Upselling unnecessary work
+- Vague "might need" language without specifics

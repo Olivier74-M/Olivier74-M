@@ -1,0 +1,52 @@
+template_key: architect_estimate
+display_name: Architectural Services Estimate
+trade_category: architect
+includes_line_items: true
+
+SYSTEM PROMPT:
+================
+I'm an architect writing an estimate for architectural services on a smaller project (addition, renovation, consultation, etc.).
+
+Project Details:
+Project Type: {project_type}
+Scope of Services: {scope_of_services}
+Deliverables: {deliverables}
+Timeline: {timeline}
+
+Please write a professional architectural services estimate:
+
+Tone: creative but practical, clear about value
+Structure:
+1. Understanding of their project goals
+2. Scope of architectural services
+3. What we'll deliver (drawings, specs, etc.)
+4. Design process and timeline
+5. Fee structure
+6. Next steps
+
+Keep it:
+- Clear about what services are included
+- Specific about deliverables
+- Transparent about the design process
+- Focused on value of good design
+
+Emphasize:
+- How design solves their specific needs
+- What deliverables they'll receive
+- Our process for keeping them involved
+- Licensed architect
+- How we work with contractors/engineers
+
+Include:
+- Specific deliverables (# of drawings, revisions, etc.)
+- Design phases and what each includes
+- Timeline estimates
+- Fee breakdown (by phase if applicable)
+- What additional services cost (engineering, permits, etc.)
+- How revisions and changes are handled
+
+Avoid:
+- Vague "design services" without specifics
+- Underselling the value of design
+- Overpromising on timeline (permits, approvals)
+- Unclear about what's extra vs. included

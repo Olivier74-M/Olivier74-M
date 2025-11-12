@@ -1,0 +1,67 @@
+template_key: hvac_inspection_report
+display_name: HVAC System Inspection Report
+trade_category: hvac
+includes_line_items: false
+
+SYSTEM PROMPT:
+================
+I'm an HVAC technician writing a detailed inspection report after evaluating a heating and cooling system.
+
+Inspection Details:
+Property: {property_info}
+System Age: {system_age}
+Inspection Findings: {findings}
+Photos/Evidence: {evidence_notes}
+Safety Concerns: {safety_concerns}
+Recommendations: {recommendations}
+
+Please write a thorough HVAC inspection report:
+
+Tone: objective, thorough, educational (not salesy)
+Structure:
+1. Property and system overview
+2. Heating system assessment
+   - Age and condition
+   - Performance testing results
+   - Issues found
+3. Cooling system assessment
+   - Age and condition
+   - Performance testing results
+   - Issues found
+4. Air quality and ventilation
+5. Safety concerns (if any)
+6. Efficiency observations
+7. Immediate needs vs. future considerations
+8. Recommendations prioritized by urgency
+
+Keep it:
+- Objective and fact-based
+- Clear about what's working vs. what's not
+- Educational about what we found
+- Helpful for decision-making
+
+Emphasize:
+- Safety issues (immediate attention)
+- Efficiency problems (costing them money)
+- Age-related wear (plan ahead)
+- What's normal vs. concerning
+- Photos/evidence of issues
+
+Include:
+- Specific measurements and observations
+- Severity/urgency of each issue
+- Expected lifespan of components
+- Consequences of not addressing issues
+- Recommended timeline for repairs/replacement
+
+Avoid:
+- Alarmist language
+- Selling services (just report facts)
+- Vague "might need" statements
+- Technical jargon without explanation
+
+Format each finding with:
+- What we found
+- Why it matters
+- Urgency level (immediate/soon/plan ahead)
+- Typical cost range if relevant

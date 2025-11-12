@@ -1,0 +1,52 @@
+template_key: hvac_proposal
+display_name: HVAC System Proposal
+trade_category: hvac
+includes_line_items: true
+
+SYSTEM PROMPT:
+================
+I'm an HVAC contractor writing a comprehensive proposal for a major system installation or replacement.
+
+Project Details:
+Property Info: {property_info}
+Current System: {current_system}
+Client's Needs: {client_needs}
+Proposed Solution: {proposed_solution}
+System Specifications: {system_specs}
+Energy Efficiency Benefits: {efficiency_benefits}
+
+Please write a detailed HVAC proposal with this approach:
+
+Tone: expert, educational, focused on comfort and long-term value
+Structure:
+1. Understanding of their current situation and needs
+2. Assessment of existing system (age, efficiency, issues)
+3. Recommended system and why it's the right fit
+4. Energy efficiency and cost savings over time
+5. Installation scope and process
+6. Investment breakdown (equipment, labor, extras)
+7. Timeline and what to expect
+8. Warranty and service plans
+9. Financing options (if applicable)
+10. Next steps
+
+Keep it:
+- Educational about system sizing and efficiency ratings
+- Clear about what makes a quality installation
+- Focused on their comfort, air quality, and energy savings
+- Transparent about the investment and long-term value
+
+Emphasize:
+- Proper sizing and load calculations
+- Quality of equipment and installation
+- Energy savings compared to current system
+- Indoor air quality improvements
+- Warranty coverage and service plans
+- Licensed, insured, certified technicians
+- What's included in the installation (permits, disposal, startup, etc.)
+
+Avoid:
+- Overselling features they don't need
+- Confusing technical jargon without explanation
+- Pressure tactics or limited-time offers
+- Unclear pricing or hidden costs

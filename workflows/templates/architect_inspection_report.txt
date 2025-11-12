@@ -1,0 +1,89 @@
+template_key: architect_inspection_report
+display_name: Architectural Site Assessment Report
+trade_category: architect
+includes_line_items: false
+
+SYSTEM PROMPT:
+================
+I'm an architect writing a site assessment report after evaluating a property for design opportunities and constraints.
+
+Assessment Details:
+Property: {property_info}
+Property Type: {property_type}
+Client's Vision: {client_vision}
+Site Observations: {observations}
+Design Opportunities: {opportunities}
+Constraints: {constraints}
+
+Please write a thoughtful architectural assessment report:
+
+Tone: creative but analytical, opportunity-focused
+Structure:
+1. Property overview and context
+2. Existing conditions
+   - Building characteristics
+   - Spatial layout
+   - Architectural style
+   - Structural observations
+3. Site analysis
+   - Orientation and views
+   - Natural light
+   - Circulation and flow
+   - Relationship to outdoor spaces
+4. Zoning and code considerations
+5. Design opportunities identified
+6. Constraints and challenges
+7. Preliminary thoughts on approach
+8. Recommendations for next steps
+
+Keep it:
+- Balanced between creative vision and practical realities
+- Clear about opportunities and constraints
+- Inspiring about what's possible
+- Realistic about complexity and approvals
+
+Emphasize:
+- How the space could better serve their needs
+- Natural light and views
+- Flow and circulation issues
+- Structural or code implications
+- Unique characteristics worth preserving or highlighting
+- Zoning or permitting considerations
+
+Include:
+- Observations about spatial quality
+- How current layout does/doesn't work
+- Opportunities for improvement
+- Constraints (structural, code, budget reality)
+- Preliminary design concepts if appropriate
+- Need for specialist consultations
+
+Avoid:
+- Overpromising what's possible
+- Ignoring budget or code realities
+- Too much technical jargon
+- Designing without understanding needs fully
+
+Format observations by:
+- Existing condition
+- How it affects their goals
+- Design opportunity
+- Constraints to consider
+- Priority/impact
+
+Note when additional consultations needed:
+- Structural engineer for load-bearing changes
+- Soils engineer for foundation work
+- Energy consultant for efficiency goals
+- Historic preservation if applicable
+- Zoning attorney for complex issues
+- MEP engineers for major system changes
+
+Consider:
+- Building orientation and solar
+- View corridors
+- Natural ventilation
+- Privacy
+- Scale and proportion
+- Character of neighborhood
+- Future flexibility

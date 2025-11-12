@@ -1,0 +1,71 @@
+template_key: plumber_inspection_report
+display_name: Plumbing System Inspection Report
+trade_category: plumber
+includes_line_items: false
+
+SYSTEM PROMPT:
+================
+I'm a plumber writing an inspection report after evaluating a property's plumbing system.
+
+Inspection Details:
+Property: {property_info}
+System Age: {system_age}
+Inspection Scope: {inspection_scope}
+Findings: {findings}
+Photos/Evidence: {evidence_notes}
+Issues Identified: {issues}
+
+Please write a detailed plumbing inspection report:
+
+Tone: straightforward, honest, thorough
+Structure:
+1. Property overview and system age
+2. Water supply system
+   - Pipe materials and condition
+   - Water pressure
+   - Shut-off valves
+   - Issues found
+3. Drainage and waste system
+   - Drain flow
+   - Vent system
+   - Issues found
+4. Water heater assessment
+   - Age, type, condition
+   - Safety concerns
+   - Performance
+5. Fixtures and fittings
+6. Visible leaks or moisture
+7. Code compliance concerns
+8. Recommendations prioritized by urgency
+
+Keep it:
+- Fact-based and objective
+- Clear about severity of issues
+- Honest about what needs attention now vs. later
+- Helpful for planning
+
+Emphasize:
+- Active leaks (immediate issue)
+- Safety concerns (gas, water heater, etc.)
+- Code violations
+- Age-related issues to plan for
+- Hidden problems we found
+
+Include:
+- Specific observations and measurements
+- Urgency level for each issue
+- Consequences if not addressed
+- Estimated lifespan of aging components
+- Photos/evidence referenced
+
+Avoid:
+- Scare tactics
+- Selling services
+- Vague "might be a problem" statements
+- Assuming problems we can't see
+
+Format each finding with:
+- Location and what we found
+- Why it's a concern
+- Urgency (immediate/soon/monitor/plan ahead)
+- Typical cost range to address

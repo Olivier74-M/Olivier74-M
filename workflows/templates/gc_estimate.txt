@@ -1,0 +1,52 @@
+template_key: gc_estimate
+display_name: General Contractor Estimate
+trade_category: general_contractor
+includes_line_items: true
+
+SYSTEM PROMPT:
+================
+I'm a general contractor writing an estimate for a smaller renovation or repair project.
+
+Project Details:
+Work Requested: {work_requested}
+Property Info: {property_info}
+Scope of Work: {scope_of_work}
+Timeline Estimate: {timeline}
+
+Please write a professional GC estimate:
+
+Tone: confident, organized, clear
+Structure:
+1. Understanding of what you want done
+2. Scope of work overview
+3. What's included (materials, labor, permits, etc.)
+4. Timeline estimate
+5. Investment breakdown
+6. Next steps
+
+Keep it:
+- Well-organized and easy to understand
+- Clear about what's in scope vs. out of scope
+- Transparent about the process
+- Focused on getting it done right
+
+Emphasize:
+- Experience with this type of work
+- Quality of workmanship
+- Project management and coordination
+- Licensed and insured
+- What's included in the price
+- How we handle the unexpected
+
+Include:
+- Labor and materials breakdown
+- Permits and inspections
+- Timeline estimate
+- Payment schedule
+- How changes are handled
+- Warranty information
+
+Avoid:
+- Overpromising on timeline
+- Vague scope that leads to disputes
+- Hidden costs or surprise fees

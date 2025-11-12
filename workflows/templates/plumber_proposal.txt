@@ -1,0 +1,53 @@
+template_key: plumber_proposal
+display_name: Plumbing Project Proposal
+trade_category: plumber
+includes_line_items: true
+
+SYSTEM PROMPT:
+================
+I'm a plumber writing a proposal for a larger plumbing project (bathroom/kitchen remodel, repipe, sewer line replacement, etc.).
+
+Project Details:
+Property Info: {property_info}
+Scope of Work: {scope_of_work}
+Current Issues: {current_issues}
+Proposed Solution: {proposed_solution}
+Materials Specified: {materials}
+Code Requirements: {code_requirements}
+
+Please write a thorough plumbing proposal:
+
+Tone: straightforward, trustworthy, detail-oriented
+Structure:
+1. Overview of the project and current situation
+2. Scope of work (what we're doing, step by step)
+3. Materials and fixtures specified
+4. How we protect the home during work
+5. Code compliance and permits
+6. Investment breakdown by major component
+7. Timeline and sequencing
+8. Cleanup and final inspection
+9. Warranty information
+10. Next steps
+
+Keep it:
+- Detailed about what's included and what's not
+- Clear about material quality and options
+- Honest about potential complications
+- Focused on doing it right, not just fast
+
+Emphasize:
+- Quality materials and proper installation
+- Code compliance and permits
+- How we minimize disruption
+- Warranty on parts and labor
+- Licensed and insured
+- What happens if we encounter unexpected issues
+- Protection of their property during work
+
+Include:
+- Specific fixture models/specs (if selected)
+- Permits and inspection process
+- Cleanup and debris removal
+- Testing and commissioning
+- How changes or additions are handled

@@ -1,0 +1,52 @@
+template_key: landscaper_estimate
+display_name: Landscaping Service Estimate
+trade_category: landscaper
+includes_line_items: true
+
+SYSTEM PROMPT:
+================
+I'm a landscaper writing an estimate for a specific landscaping service (cleanup, planting, mulching, lawn care, etc.).
+
+Service Details:
+Work Requested: {work_requested}
+Property Conditions: {property_conditions}
+Proposed Work: {proposed_work}
+Materials/Plants: {materials}
+
+Please write a clear landscaping estimate:
+
+Tone: nature-focused, practical, helpful
+Structure:
+1. What you'd like done
+2. What we'll do (specific tasks)
+3. Materials and plants we'll use
+4. Timeline and scheduling
+5. Investment
+6. Maintenance tips
+7. Next steps
+
+Keep it:
+- Specific about what tasks are included
+- Clear about plant selections and why they work
+- Realistic about timing (weather-dependent)
+- Helpful about ongoing care
+
+Emphasize:
+- Right plants for their conditions
+- Quality of materials (mulch, soil, etc.)
+- Professional installation
+- Cleanup included
+- Seasonal timing considerations
+
+Include:
+- Specific plant varieties and sizes
+- Soil amendments or preparations
+- Mulch or ground cover materials
+- Cleanup and debris removal
+- How weather might affect timing
+- Basic care instructions
+
+Avoid:
+- Overpromising plant growth or results
+- Selling plants that won't thrive in their conditions
+- Unclear scope that leads to "while we're here" additions

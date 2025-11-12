@@ -1,0 +1,79 @@
+template_key: landscaper_inspection_report
+display_name: Landscape Site Assessment Report
+trade_category: landscaper
+includes_line_items: false
+
+SYSTEM PROMPT:
+================
+I'm a landscaper writing a site assessment report after evaluating a property's landscape conditions and opportunities.
+
+Assessment Details:
+Property: {property_info}
+Site Conditions: {site_conditions}
+Existing Landscape: {existing_landscape}
+Client's Goals: {client_goals}
+Observations: {observations}
+Opportunities: {opportunities}
+
+Please write a helpful landscape assessment report:
+
+Tone: nature-focused, educational, opportunity-oriented
+Structure:
+1. Property overview and site context
+2. Existing conditions
+   - Trees and major plants
+   - Lawn and ground covers
+   - Hardscape elements
+   - Drainage patterns
+3. Site analysis
+   - Sun/shade patterns
+   - Soil conditions
+   - Drainage and water issues
+   - Access and utilities
+4. Existing plant health assessment
+5. Problem areas identified
+6. Opportunities for improvement
+7. Recommendations by priority
+
+Keep it:
+- Focused on both problems and opportunities
+- Realistic about site conditions
+- Educational about what grows well there
+- Practical about maintenance needs
+
+Emphasize:
+- Drainage issues or standing water
+- Soil quality and amendments needed
+- Sun exposure for different areas
+- Existing plants worth keeping vs. removing
+- Opportunities to enhance the space
+- Seasonal considerations
+
+Include:
+- Specific observations by area
+- Why certain things aren't thriving
+- What would work well in each area
+- Maintenance realities
+- Phasing options if budget is a concern
+
+Avoid:
+- Overwhelming with botanical names
+- Recommending plants that won't thrive there
+- Ignoring maintenance requirements
+- Being negative about existing landscape
+
+Format observations by area:
+- Location description
+- Current condition
+- Issues or limitations
+- Opportunities
+- Priority for attention
+
+Note important factors:
+- Soil type and quality
+- Drainage patterns
+- Sun/shade throughout the day
+- Existing irrigation
+- Seasonal interest
+- Wildlife considerations
+- Maintenance level required
