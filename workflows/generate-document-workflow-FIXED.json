@@ -24,7 +24,7 @@
           "parameters": [
             {
               "name": "template_key",
-              "value": "=eq.{{$json.document_type}}"
+              "value": "eq.hvac_estimate"
             },
             {
               "name": "select",
@@ -62,7 +62,7 @@
           "parameters": [
             {
               "name": "job_id",
-              "value": "=eq.{{$('Webhook – Generate Document').item.json.job_id}}"
+              "value": "eq.8f7ecc15-3b91-480c-90b2-b186f0a46bba"
             },
             {
               "name": "select",
@@ -97,7 +97,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Assemble context from all captures\nconst captures = $input.all();\n\n// Separate by type (your column is 'type', not 'media_type')\nconst images = captures.filter(c => c.json.type === 'image');\nconst audio = captures.filter(c => c.json.type === 'audio');\nconst text = captures.filter(c => c.json.type === 'text');\n\n// Build image array for GPT-4 Vision\nconst imageData = images.map(img => ({\n  url: img.json.signed_url,\n  analysis: img.json.ocr_text || '',  // Using ocr_text since image_analysis doesn't exist\n  timestamp: img.json.created_at\n}));\n\n// Combine all text context\nconst imageContext = images\n  .map(img => `IMAGE (OCR): ${img.json.ocr_text || 'No text extracted'}`)\n  .join('\\n\\n');\n\nconst audioContext = audio\n  .map(a => `AUDIO TRANSCRIPT: ${a.json.transcript || a.json.transcription || 'No transcript available'}`)\n  .join('\\n\\n');\n\nconst textContext = text\n  .map(t => `NOTE: ${t.json.text_content || ''}`)\n  .join('\\n\\n');\n\n// Combine everything\nconst allTextContext = [\n  imageContext,\n  audioContext,\n  textContext\n].filter(Boolean).join('\\n\\n');\n\n// Return assembled context\nreturn [{\n  json: {\n    images: imageData,\n    transcripts: audio.map(a => a.json.transcript || a.json.transcription).filter(Boolean).join('\\n\\n'),\n    notes: text.map(t => t.json.text_content).filter(Boolean).join('\\n\\n'),\n    image_count: images.length,\n    audio_count: audio.length,\n    text_count: text.length,\n    all_text_context: allTextContext\n  }\n}];"
+        "jsCode": "// Assemble context from all captures\nconst captures = $input.all();\n\n// Get job_id from webhook to pass through\nconst jobId = $('Webhook – Generate Document').first().json.job_id;\n\n// Separate by type (using 'type' column, not 'media_type')\nconst images = captures.filter(c => c.json.type === 'image');\nconst audio = captures.filter(c => c.json.type === 'audio');\nconst text = captures.filter(c => c.json.type === 'text');\n\n// Build image array for GPT-4 Vision\nconst imageData = images.map(img => ({\n  url: img.json.signed_url,\n  analysis: img.json.ocr_text || '',\n  timestamp: img.json.created_at\n}));\n\n// Combine all text context\nconst imageContext = images\n  .map(img => `IMAGE (OCR): ${img.json.ocr_text || 'No text extracted'}`)\n  .join('\\n\\n');\n\nconst audioContext = audio\n  .map(a => `AUDIO TRANSCRIPT: ${a.json.transcript || a.json.transcription || 'No transcript available'}`)\n  .join('\\n\\n');\n\nconst textContext = text\n  .map(t => `NOTE: ${t.json.text_content || ''}`)\n  .join('\\n\\n');\n\n// Combine everything\nconst allTextContext = [\n  imageContext,\n  audioContext,\n  textContext\n].filter(Boolean).join('\\n\\n');\n\n// Return assembled context WITH job_id\nreturn [{\n  json: {\n    job_id: jobId,\n    images: imageData,\n    transcripts: audio.map(a => a.json.transcript || a.json.transcription).filter(Boolean).join('\\n\\n'),\n    notes: text.map(t => t.json.text_content).filter(Boolean).join('\\n\\n'),\n    image_count: images.length,\n    audio_count: audio.length,\n    text_count: text.length,\n    all_text_context: allTextContext\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -107,7 +107,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Build GPT-4 Vision prompt with images\nconst template = $('Fetch Prompt Template').item.json[0];\nconst context = $input.item.json;\nconst systemPrompt = template.system_prompt;\n\n// Build user message\nconst userMessageText = `Here's all the information from my site visit:\\n\\n${context.all_text_context}\\n\\n${context.image_count > 0 ? `I've also included ${context.image_count} photos from the site for your review.` : ''}`;\n\n// Build message content array for GPT-4 Vision\nconst userContent = [\n  {\n    type: 'text',\n    text: userMessageText\n  }\n];\n\n// Add images to content array\nif (context.images && context.images.length > 0) {\n  context.images.forEach(img => {\n    if (img.url) {\n      userContent.push({\n        type: 'image_url',\n        image_url: {\n          url: img.url,\n          detail: 'high'\n        }\n      });\n    }\n  });\n}\n\n// Build complete messages array\nconst messages = [\n  {\n    role: 'system',\n    content: systemPrompt\n  },\n  {\n    role: 'user',\n    content: userContent\n  }\n];\n\n// Return GPT-4 Vision request\nreturn [{\n  json: {\n    model: 'gpt-4-vision-preview',\n    messages: messages,\n    max_tokens: 4000,\n    temperature: 0.7\n  }\n}];"
+        "jsCode": "// Build GPT-4 Vision prompt with images\n// More robust version that handles data format variations\n\n// Get template - handle both array and direct object\nconst templateNode = $('Fetch Prompt Template').first().json;\nconst template = Array.isArray(templateNode) ? templateNode[0] : templateNode;\n\nif (!template || !template.system_prompt) {\n  throw new Error('Template data is missing or invalid. Expected system_prompt field.');\n}\n\nconst context = $input.first().json;\n\n// Get job_id from context (passed through from Node 4)\nconst jobId = context.job_id;\n\n// For MVP: Remove placeholder variables from system prompt\n// (e.g., {property_details}, {client_concern}, etc.)\nlet systemPrompt = template.system_prompt;\n\n// Remove lines that contain unreplaced placeholder variables\nsystemPrompt = systemPrompt\n  .split('\\n')\n  .filter(line => !line.includes('{') || !line.includes('}'))\n  .join('\\n')\n  .trim();\n\n// Build user message\nconst userMessageText = `Here's all the information from my site visit:\\n\\n${context.all_text_context}\\n\\n${context.image_count > 0 ? `I've also included ${context.image_count} photos from the site for your review.` : ''}`;\n\n// Build message content array for GPT-4 Vision\nconst userContent = [\n  {\n    type: 'text',\n    text: userMessageText\n  }\n];\n\n// Add images to content array\nif (context.images && context.images.length > 0) {\n  context.images.forEach(img => {\n    if (img.url) {\n      userContent.push({\n        type: 'image_url',\n        image_url: {\n          url: img.url,\n          detail: 'high'\n        }\n      });\n    }\n  });\n}\n\n// Build complete messages array\nconst messages = [\n  {\n    role: 'system',\n    content: systemPrompt\n  },\n  {\n    role: 'user',\n    content: userContent\n  }\n];\n\n// Return GPT-4 Vision request WITH job_id\nreturn [{\n  json: {\n    job_id: jobId,\n    model: 'gpt-4o',\n    messages: messages,\n    max_tokens: 4000,\n    temperature: 0.7\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -147,7 +147,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Extract and parse GPT-4 response\nconst response = $input.item.json;\nconst generatedContent = response.choices[0].message.content;\nconst tokensUsed = response.usage.total_tokens;\n\n// Get template info to check if line items expected\nconst template = $('Fetch Prompt Template').item.json[0];\nconst includesLineItems = template.includes_line_items || false;\n\n// For MVP: Just save full markdown\nconst lineItemsJson = [];\n\nreturn [{\n  json: {\n    markdown: generatedContent,\n    line_items_json: lineItemsJson,\n    tokens_used: tokensUsed,\n    status: 'draft'\n  }\n}];"
+        "jsCode": "// Extract and parse GPT-4 response\nconst response = $input.first().json;\nconst generatedContent = response.choices[0].message.content;\nconst tokensUsed = response.usage.total_tokens;\n\n// Get template info to check if line items expected\nconst templateData = $('Fetch Prompt Template').first().json;\nconst template = Array.isArray(templateData) ? templateData[0] : templateData;\nconst includesLineItems = template.includes_line_items || false;\n\n// Get job_id from Node 4 (Assemble Context) which has it\nconst jobId = $('Assemble Context from Captures').first().json.job_id;\n\n// For MVP: Just save full markdown\nconst lineItemsJson = [];\n\nreturn [{\n  json: {\n    job_id: jobId,\n    markdown: generatedContent,\n    line_items_json: lineItemsJson,\n    tokens_used: tokensUsed,\n    status: 'draft'\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -182,7 +182,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"job_id\": \"{{$('Webhook – Generate Document').item.json.job_id}}\",\n  \"markdown\": {{JSON.stringify($json.markdown)}},\n  \"line_items_json\": {{JSON.stringify($json.line_items_json)}},\n  \"status\": \"{{$json.status}}\"\n}",
+        "jsonBody": "={\n  \"job_id\": \"{{$json.job_id}}\",\n  \"markdown\": {{JSON.stringify($json.markdown)}},\n  \"line_items_json\": {{JSON.stringify($json.line_items_json)}},\n  \"status\": \"{{$json.status}}\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
