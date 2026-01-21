@@ -60,7 +60,7 @@ Every commit here moves toward one goal:
 
 - 🌐 [bracework.io](https://bracework.io)  
 - 💬 [LinkedIn](https://www.linkedin.com/in/oliviermadel)  
-- 📖 [Blog](https://bracework.io/blog)
+- 📖 [Blog]([https://bracework.io/blog](https://www.bracework.io/blog))
 
 ---
 
